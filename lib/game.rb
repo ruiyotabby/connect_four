@@ -26,6 +26,16 @@ class Game
     end
   end
 
+  def player_turn(player, colour)
+    loop do
+      print "#{player} to enter number, from 1 to 7, to drop a #{colour} piece to the cage number: "
+      input = verify_input(gets.to_i)
+      return input if input
+
+      print 'FAILED!!! '
+    end
+  end
+
   def verify_input(input)
     return input if input >= 1 && input <= 7
   end
