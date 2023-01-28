@@ -15,4 +15,25 @@ describe Game do
     end
   end
 
+  describe '#player_turn' do
+    subject(:game_turn) { described_class.new }
+    context 'when player enters correct input' do
+      it 'returns input' do
+        allow(game_turn).to receive(:print)
+        allow(game_turn).to receive(:gets).and_return '5'
+        allow(game_turn).to receive(:verify_input).with(5).and_return 5
+        expect(game_turn.player_turn('player 1', 'blue')).to eq 5
+      end
+    end
+    context 'when user enter incorrect input once' do
+      it 'asks for input twice from the same player' do
+        allow(game_turn).to receive(:print)
+        allow(game_turn).to receive(:gets).and_return('9', '5')
+        allow(game_turn).to receive(:verify_input).and_return(nil, 5)
+        message = 'player 1 to enter number, from 1 to 7, to drop a blue piece to the cage number: '
+        expect(game_turn).to receive(:print).with(message).exactly(2).times
+        game_turn.player_turn('player 1', 'blue')
+      end
+    end
+  end
 end
