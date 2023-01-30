@@ -17,6 +17,14 @@ class Board
     return arr
   end
 
+  def check_piece(place)
+    empty_circle = "\u25ef"
+    (1..6).each do |i|
+      return i - 1 if board[i][place] != empty_circle
+    end
+    return 6
+  end
+
   def add_piece(color, column)
     row = check_piece(column)
     return puts 'Failed, column already filled' if row.zero?
