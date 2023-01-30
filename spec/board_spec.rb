@@ -10,6 +10,28 @@ describe Board do
     end
   end
 
+  describe '#check_piece' do
+    subject(:game_check) { described_class.new }
+    let(:red) { "\e[35m\u2b24\e[0m" } 
+    context 'when the column is empty' do
+      it 'returns 6' do
+        expect(game_check.check_piece(4)).to eq 6
+      end
+    end
+    context 'when column is full' do
+      it 'returns 0' do
+        6.times { game_check.add_piece(red, 5) }
+        expect(game_check.check_piece(5)).to eq 0
+      end
+    end
+    context 'when column is half empty' do
+      it 'returns 3' do
+        3.times { game_check.add_piece(red, 2) }
+        expect(game_check.check_piece(2)).to eq 3
+      end
+    end
+  end
+
   describe '#add_piece' do
     subject(:game_add) { described_class.new }
     let(:blue) { "\e[34m\u2b24\e[0m" }
