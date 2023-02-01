@@ -52,4 +52,22 @@ describe Board do
       end
     end
   end
+
+  describe '#check_row' do
+    subject(:game_row) { described_class.new }
+    context 'when player1 gets 4 pieces in the same row' do
+      it 'returns blue' do
+        blue = "\e[34m\u2b24\e[0m"
+        4.times do |i|
+          game_row.add_piece(blue, i)
+        end
+        expect(game_row.board).to eq blue
+      end
+    end
+    context 'when no player gets 4 pieces in a row' do
+      it 'returns nil' do
+        expect(game_row.check_row).to eq nil
+      end
+    end
+  end
 end
