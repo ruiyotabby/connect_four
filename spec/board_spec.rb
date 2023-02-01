@@ -58,18 +58,54 @@ describe Board do
 
   describe '#check_row' do
     subject(:game_row) { described_class.new }
+    let(:red) { "\e[35m\u2b24\e[0m" }
+    let(:blue) { "\e[34m\u2b24\e[0m" }
     context 'when player1 gets 4 pieces in the same row' do
       it 'returns blue' do
-        blue = "\e[34m\u2b24\e[0m"
         4.times do |i|
           game_row.add_piece(blue, i)
         end
         expect(game_row.check_row).to eq blue
       end
     end
-    context 'when no player gets 4 pieces in a row' do
+    context 'when no player has any piece in a row' do
       it 'returns nil' do
         expect(game_row.check_row).to eq nil
+      end
+    end
+    context 'when player2 has 3 pieces in a row' do
+      it 'returns nil' do
+        3.times do |i|
+          game_row.add_piece(red, i)
+        end
+        expect(game_row.check_row).to eq nil
+      end
+    end
+  end
+
+  describe '#check_column' do
+    subject(:game_column) { described_class.new }
+    let(:red) { "\e[35m\u2b24\e[0m" }
+    let(:blue) { "\e[34m\u2b24\e[0m" }
+    context 'when player2 gets 4 pieces in the one column' do
+      it 'returns red' do
+        4.times do
+          game_column.add_piece(red, 2)
+        end
+        expect(game_column.check_column).to eq red
+      end
+    end
+    context 'when player1 has 3 pieces in a column' do
+      it 'returns nil' do
+        3.times do
+          game_column.add_piece(blue, 5)
+        end
+        expect(game_column.check_column).to eq nil
+      end
+    end
+    context 'when no player has any piece in a column' do
+      it 'returns nil' do
+        expect(game_column.check_column).to eq nil
       end
     end
   end
