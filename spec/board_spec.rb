@@ -4,8 +4,11 @@ describe Board do
   describe '#make_board' do
     subject(:game_board) { described_class.new }
     context 'when method is called' do
-      it 'should return 2d array whose length is 8' do
+      it 'should return 2d array whose row length is 8' do
         expect(game_board.board.length).to eq 8
+      end
+      it 'should return 2d array whose column length is 7' do
+        expect(game_board.board[1].length).to eq 7  
       end
     end
   end
@@ -61,7 +64,7 @@ describe Board do
         4.times do |i|
           game_row.add_piece(blue, i)
         end
-        expect(game_row.board).to eq blue
+        expect(game_row.check_row).to eq blue
       end
     end
     context 'when no player gets 4 pieces in a row' do
