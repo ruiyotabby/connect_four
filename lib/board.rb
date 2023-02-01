@@ -31,4 +31,20 @@ class Board
 
     @board[row][column] = color
   end
+
+  def check_row
+    blue = "\e[34m\u2b24\e[0m"
+    red = "\e[35m\u2b24\e[0m"
+    player1 = player2 = 0
+    (1..6).each do |row|
+      7.times do |column|
+        player1 += 1 if board[row][column] == blue
+        player2 += 1 if board[row][column] == red
+        return blue if player1 == 4
+        return red if player2 == 4
+      end
+      player1 = player2 = 0
+    end
+    return nil
+  end
 end
