@@ -33,8 +33,8 @@ class Board
   end
 
   def check_row(board = @board)
-    (1..6).each do |row|
-      arr = board[row].each_cons(4).find { |a| a.uniq.size == 1 && a.first != "\u25ef" }
+    board.each do |row|
+      arr = row.each_cons(4).find { |a| a.uniq.size == 1 && a.first != "\u25ef" }
       return arr.first unless arr.nil?
     end
     nil
@@ -42,5 +42,13 @@ class Board
 
   def check_column
     check_row(board.transpose)
+  end
+
+  def check_diagonal
+    check_row((1..board.size-1-4).map do |i|
+      (0..board.size-2-i).map { |j| board[i+j][j] }
+    end.concat((0..board[1].size-4).map do |j|
+      (1..board.size-j-2).map { |i| board[i][i+j] }
+    end))
   end
 end
