@@ -36,4 +36,24 @@ describe Game do
       end
     end
   end
+
+  describe '#display-winner' do
+    subject(:game_winner) { described_class.new }
+    let(:red) { "\e[35m\u2b24\e[0m" }
+    let(:blue) { "\e[34m\u2b24\e[0m" }
+    context 'when blue is passed as argument' do
+      it 'displays player1 as winner' do
+        message = 'Game Over! Player1 wins'
+        expect(game_winner).to receive(:puts).with message
+        game_winner.display_winner(blue)
+      end
+    end
+    context 'when red is passed to it' do
+      it 'displays player2 as winner' do
+        message = 'Game Over! Player2 wins'
+        expect(game_winner).to receive(:puts).with message
+        game_winner.display_winner(red)
+      end
+    end
+  end
 end
