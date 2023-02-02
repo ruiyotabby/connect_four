@@ -2,9 +2,8 @@ require './lib/board'
 
 class Game
   def initialize
-    @board = Board.new.make_board
+    @board = Board.new
   end
-
   def play
     welcome_display
     view_board
@@ -18,12 +17,17 @@ class Game
   end
 
   def view_board
-    @board.each do |row|
+    board = @board.board
+    board.each do |row|
       7.times do |i|
         print "\t#{row[i]}"
         puts "\n\n" if i == 6
       end
     end
+  end
+
+  def display_winner(color)
+    return puts color == "\e[34m\u2b24\e[0m" ? 'Game Over! Player1 wins' : 'Game Over! Player2 wins'
   end
 
   def player_turn(player, colour)
@@ -41,4 +45,4 @@ class Game
   end
 end
 
-# Game.new.play
+Game.new.view_board
