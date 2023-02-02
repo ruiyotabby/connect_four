@@ -8,7 +8,7 @@ describe Board do
         expect(game_board.board.length).to eq 8
       end
       it 'should return 2d array whose column length is 7' do
-        expect(game_board.board[1].length).to eq 7  
+        expect(game_board.board[1].length).to eq 7
       end
     end
   end
@@ -106,6 +106,31 @@ describe Board do
     context 'when no player has any piece in a column' do
       it 'returns nil' do
         expect(game_column.check_column).to eq nil
+      end
+    end
+  end
+
+  describe '#check_diagonal' do
+    subject(:game_diagonal) { described_class.new }
+    let(:red) { "\e[35m\u2b24\e[0m" }
+    let(:blue) { "\e[34m\u2b24\e[0m" }
+    context 'when player1 enters 4 pieces diagonally' do
+      it 'returns blue' do
+        allow(game_diagonal).to receive(:check_piece).and_return(3, 4, 5, 6)
+        (2..5).each { |i| game_diagonal.add_piece(blue, i) }
+        expect(game_diagonal.check_diagonal).to eq blue
+      end
+    end
+    context 'when player 2 enters 3 pieces diagonally' do
+      it 'returns nil' do
+        allow(game_diagonal).to receive(:check_piece).and_return(4, 5, 6)
+        (3..5).each { |i| game_diagonal.add_piece(red, i) }
+        expect(game_diagonal.check_diagonal).to eq nil
+      end
+    end
+    context 'when no piece has been dropped to the board' do
+      it 'returns nil' do
+        expect(game_diagonal.check_diagonal).to eq nil
       end
     end
   end
