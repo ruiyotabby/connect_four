@@ -14,7 +14,7 @@ class Board
         j.zero? || j == 7 ? arr[j] << i : arr[j] << empty_circle
       end
     end
-    return arr
+    arr
   end
 
   def check_piece(place)
@@ -22,7 +22,7 @@ class Board
     (1..6).each do |i|
       return i - 1 if board[i][place] != empty_circle
     end
-    return 6
+    6
   end
 
   def add_piece(color, column)
@@ -32,35 +32,15 @@ class Board
     @board[row][column] = color
   end
 
-  def check_row
-    blue = "\e[34m\u2b24\e[0m"
-    red = "\e[35m\u2b24\e[0m"
-    player1 = player2 = 0
+  def check_row(board = @board)
     (1..6).each do |row|
-      7.times do |column|
-        player1 += 1 if board[row][column] == blue
-        player2 += 1 if board[row][column] == red
-        return blue if player1 == 4
-        return red if player2 == 4
-      end
-      player1 = player2 = 0
+      arr = board[row].each_cons(4).find { |a| a.uniq.size == 1 && a.first != "\u25ef" }
+      return arr.first unless arr.nil?
     end
-    return nil
+    nil
   end
 
   def check_column
-    blue = "\e[34m\u2b24\e[0m"
-    red = "\e[35m\u2b24\e[0m"
-    player1 = player2 = 0
-    7.times do |column|
-      (1..6).each do |row|
-        player1 += 1 if board[row][column] == blue
-        player2 += 1 if board[row][column] == red
-        return blue if player1 == 4
-        return red if player2 == 4
-      end
-      player1 = player2 = 0
-    end
-    return nil
+    check_row(board.transpose)
   end
 end
