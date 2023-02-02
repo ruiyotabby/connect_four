@@ -133,5 +133,12 @@ describe Board do
         expect(game_diagonal.check_diagonal).to eq nil
       end
     end
+    context 'when player2 has entered 4 pieces diagonally from the first row' do
+      it 'returns red' do
+        allow(game_diagonal).to receive(:check_piece).and_return(1, 2, 3, 4)
+        (2..5).each { |i| game_diagonal.add_piece(red, i) }
+        expect(game_diagonal.check_diagonal).to eq red
+      end
+    end
   end
 end
