@@ -51,4 +51,12 @@ class Board
       (1..board.size-j-2).map { |i| board[i][i+j] }
     end))
   end
+
+  def check_antidiagonal
+    no_column = board.first.size
+    @board = (board.each_index.with_object([]) do |i, a|
+      a << no_column.times.map { |j| board[j][no_column-1-i] }
+    end)
+    check_diagonal
+  end
 end
