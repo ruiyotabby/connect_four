@@ -141,4 +141,29 @@ describe Board do
       end
     end
   end
+
+  describe '#check_antidiagonal' do
+    subject(:game_antidiagonal) { described_class.new }
+    let(:red) { "\e[35m\u2b24\e[0m" }
+    let(:blue) { "\e[34m\u2b24\e[0m" }
+    context 'when player2 enters 4 pieces in antidiagonal' do
+      it 'returns red' do
+        allow(game_antidiagonal).to receive(:check_piece).and_return(6, 5, 4, 3)
+        4.times { |i| game_antidiagonal.add_piece(red, i) }
+        expect(game_antidiagonal.check_antidiagonal).to eq red
+      end
+    end
+    context 'when player1 enters 3 pieces antidiagonally' do
+      it 'returns nil' do
+        allow(game_antidiagonal).to receive(:check_piece).and_return(6, 5, 4)
+        4.times { |i| game_antidiagonal.add_piece(blue, i) }
+        expect(game_antidiagonal.check_antidiagonal).to eq nil
+      end
+    end
+    context 'when no piece has been dropped to the board' do
+      it 'returns nil' do
+        expect(game_antidiagonal.check_antidiagonal).to eq nil
+      end
+    end
+  end
 end
