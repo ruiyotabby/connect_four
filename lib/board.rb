@@ -33,7 +33,8 @@ class Board
   end
 
   def check_row(board = @board)
-    board.each do |row|
+    grid = board.dup
+    grid.each do |row|
       arr = row.each_cons(4).find { |a| a.uniq.size == 1 && a.first != "\u25ef" }
       return arr.first unless arr.nil?
     end
@@ -41,22 +42,25 @@ class Board
   end
 
   def check_column
-    check_row(board.transpose)
+    grid = board.dup
+    check_row(grid.transpose)
   end
 
-  def check_diagonal
-    check_row((1..board.size-1-4).map do |i|
-      (0..board.size-2-i).map { |j| board[i+j][j] }
-    end.concat((0..board[1].size-4).map do |j|
-      (1..board.size-j-2).map { |i| board[i][i+j] }
+  def check_diagonal(board = @board)
+    grid = board.dup
+    check_row((1..grid.size-1-4).map do |i|
+      (0..grid.size-2-i).map { |j| grid[i+j][j] }
+    end.concat((0..grid[1].size-4).map do |j|
+      (1..grid.size-j-2).map { |i| grid[i][i+j] }
     end))
   end
 
   def check_antidiagonal
+    # grid = board.dup
     no_column = board.first.size
-    @board = (board.each_index.with_object([]) do |i, a|
+    grid = (board.each_index.with_object([]) do |i, a|
       a << no_column.times.map { |j| board[j][no_column-1-i] }
     end)
-    check_diagonal
+    check_diagonal(grid)
   end
 end
