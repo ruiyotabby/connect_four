@@ -27,12 +27,27 @@ class Game
     end
   end
 
+  def input_display
+    42.times do
+      @board.add_piece("\e[34m\u2b24\e[0m", player_turn('Player 1', 'blue') - 1)
+      view_board
+      break unless game_over.nil?
+
+      @board.add_piece("\e[35m\u2b24\e[0m", player_turn('Player 2', 'red') - 1)
+      view_board
+      break unless game_over.nil?
+    end
+    return display_winner(game_over) if game_over
+
+    puts 'There was a tie'
+  end
+
   def game_over
-    @board.check_row || @board.check_column || @board.check_diagonal || @board.check_antidiagonal
+    return @board.check_row || @board.check_column || @board.check_diagonal || @board.check_antidiagonal
   end
 
   def display_winner(color)
-    puts color == "\e[34m\u2b24\e[0m" ? 'Game Over! Player1 wins' : 'Game Over! Player2 wins'
+    puts color == "\e[34m\u2b24\e[0m" ? "\t\tGame Over! Player1 wins" : "\t\tGame Over! Player2 wins"
   end
 
   def player_turn(player, colour)
@@ -50,4 +65,4 @@ class Game
   end
 end
 
-# Game.new.view_board
+Game.new.play
