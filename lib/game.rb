@@ -4,6 +4,7 @@ class Game
   def initialize
     @board = Board.new
   end
+
   def play
     welcome_display
     view_board
@@ -26,8 +27,12 @@ class Game
     end
   end
 
+  def game_over
+    @board.check_row || @board.check_column || @board.check_diagonal || @board.check_antidiagonal
+  end
+
   def display_winner(color)
-    return puts color == "\e[34m\u2b24\e[0m" ? 'Game Over! Player1 wins' : 'Game Over! Player2 wins'
+    puts color == "\e[34m\u2b24\e[0m" ? 'Game Over! Player1 wins' : 'Game Over! Player2 wins'
   end
 
   def player_turn(player, colour)
@@ -45,4 +50,4 @@ class Game
   end
 end
 
-Game.new.view_board
+# Game.new.view_board
