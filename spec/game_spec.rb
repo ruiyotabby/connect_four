@@ -56,4 +56,30 @@ describe Game do
       end
     end
   end
+
+  describe '#game_over' do
+    subject(:game_over) { described_class.new }
+    context 'when #game_over is called' do
+      it 'calls #check_row in Board' do
+        board = game_over.instance_variable_get(:@board)
+        expect(board).to receive(:check_row).exactly(4).times
+        game_over.game_over
+      end
+      it 'calls #check_column' do
+        board = game_over.instance_variable_get(:@board)
+        expect(board).to receive(:check_column).exactly(1).times
+        game_over.game_over
+      end
+      it 'calls #check_diagonal' do
+        board = game_over.instance_variable_get(:@board)
+        expect(board).to receive(:check_diagonal).exactly(2).times
+        game_over.game_over
+      end
+      it 'calls #check_antidiagonal' do
+        board = game_over.instance_variable_get(:@board)
+        expect(board).to receive(:check_antidiagonal).exactly(1).times
+        game_over.game_over
+      end
+    end
+  end
 end
